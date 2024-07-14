@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="container mx-auto">
+  <header class=" bg-white">
+    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a href="/" class="-m-1.5 p-1.5">
+          <span class="sr-only">EchoMail</span>
+          <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="">
+        </a>
+      </div>
+      <div class="lg:flex lg:gap-x-12">
+        <a href="/inbox" class="text-sm font-semibold leading-6 text-gray-900">Inbox</a>
+        <a href="/profile" class="text-sm font-semibold leading-6 text-gray-900">Profile</a>
+      </div>
+      <div class="lg:flex lg:flex-1 lg:justify-end items-center">
+        <% if (!isAuthenticated) { %>
+          <a href="/auth/signin" class="text-sm font-semibold leading-6 text-gray-900">Sign in <span
+              aria-hidden="true">&rarr;</span></a>
+          <% } else { %>
+            <a href="/auth/logout" class="text-sm font-semibold leading-6 text-gray-900">Logout <span
+                aria-hidden="true">&rarr;</span></a>
+            <% } %>
+      </div>
+    </nav>
+  </header>
+
+
+  <div class="bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl sm:text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+          Welcome <%= isAuthenticated ? profile.name : 'Guest' %>!
+        </h2>
+        <p class="mt-6 text-lg leading-8 text-gray-600">Distinctio et nulla eum soluta et neque labore quibusdam. Saepe
+          et quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.</p>
+
+        <% if (isAuthenticated) { %>
+          <span
+            class="mt-4 inline-flex items-center rounded-md bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">
+            <%= profile.username.toLowerCase() %>
+          </span>
+          <% } %>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
