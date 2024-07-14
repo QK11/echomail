@@ -78,6 +78,9 @@ User.watch().on("change", async (change) => {
       jobId: userId
     }
   );
+
+  // Setup Change Subscription
+  // https://learn.microsoft.com/en-us/graph/change-notifications-overview
 });
 
 module.exports = User;

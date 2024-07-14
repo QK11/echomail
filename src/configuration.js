@@ -3,8 +3,8 @@
 const {
   // Application
   EXPRESS_SESSION_SECRET,
-  NODE_ENV = "development",
-  PORT = 1100,
+  NODE_ENV,
+  PORT,
 
   // Microsoft Graph API
   TENANT_ID,
@@ -13,6 +13,7 @@ const {
 
   // MongoDB
   MONGO_HOST,
+  MONGO_REPLICA_SET,
   MONGO_DATABASE,
 
   // Redis
@@ -37,7 +38,7 @@ module.exports = {
   mongo: {
     host: MONGO_HOST,
     database: MONGO_DATABASE,
-    uri: `mongodb://${MONGO_HOST}/${MONGO_DATABASE}`
+    uri: `mongodb://${MONGO_HOST}/${MONGO_DATABASE}?replicaSet=${MONGO_REPLICA_SET}`
   },
   redis: {
     host: REDIS_HOST,

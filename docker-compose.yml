@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    restart: always
+    ports:
+      - "1100:1100"
+    environment:
+      - EXPRESS_SESSION_SECRET=
+      - NODE_ENV=development
+      - PORT=1100
+      - TENANT_ID=
+      - CLIENT_ID=
+      - CLIENT_SECRET=
+      - MONGO_HOST=mongo-rs,mongo-rs-2,mongo-rs-3
+      - MONGO_REPLICA_SET=rs0
+      - MONGO_DATABASE=echomail
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+    links:
+      - mongo-rs
+      - mongo-rs-2
+      - mongo-rs-3
+      - redis
+    depends_on:
+      - mongo-rs
+      - mongo-rs-2
+      - mongo-rs-3
+      - redis
+    networks:
+      - app-network
+
+  mongo-rs:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - "27021:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - app-network
+    command: --replSet rs0
+
+  mongo-rs-2:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - "27022:27017"
+    volumes:
+      - mongo-data-2:/data/db
+    networks:
+      - app-network
+    command: --replSet rs0
+
+  mongo-rs-3:
+    image: mongo:latest
+    restart: unless-stopped
+    ports:
+      - "27023:27017"
+    volumes:
+      - mongo-data-3:/data/db
+    networks:
+      - app-network
+    command: --replSet rs0
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - app-network
+  
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo-data: {}
+  mongo-data-2: {}
+  mongo-data-3: {}
+  redis-data: {}
